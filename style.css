@@ -1,0 +1,112 @@
+:root{
+  --bg:#eef7ef;
+  --accent:#2f8f4a;
+  --accent-2:#46a069;
+  --card:#ffffff;
+  --muted:#55606a;
+  --glass: rgba(255,255,255,0.75);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: linear-gradient(180deg, #f4fbf6 0%, var(--bg) 100%);
+  color:#0f1720;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
+
+/* Top bar */
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:12px 18px;
+  background:linear-gradient(90deg,var(--accent),var(--accent-2));
+  color:white;
+  box-shadow: 0 6px 20px rgba(45, 79, 45, 0.15);
+}
+.brand{display:flex;gap:12px;align-items:center}
+.logo{width:52px;height:52px;border-radius:10px;background:white;padding:6px}
+.brand h1{margin:0;font-size:18px}
+.brand small{opacity:0.95;font-size:12px}
+
+/* Nav */
+.nav{display:flex;gap:8px}
+.nav-btn{
+  background:transparent;border:0;color:rgba(255,255,255,0.95);padding:8px 10px;border-radius:8px;
+  cursor:pointer;font-weight:600;
+}
+.nav-btn.active, .nav-btn:hover{background:rgba(255,255,255,0.12)}
+
+/* Layout */
+main#app{flex:1;padding:20px;max-width:1100px;margin:18px auto;width:100%}
+.page{display:none;animation:fadeIn .35s ease}
+.page.active{display:block}
+
+/* Hero */
+.hero{
+  display:flex;gap:18px;align-items:center;background:var(--card);padding:18px;border-radius:14px;
+  box-shadow:0 8px 24px rgba(16,24,32,0.06);
+}
+.hero-text{flex:1}
+.hero-text h2{margin:0 0 10px;font-size:28px;color:var(--accent)}
+.hero-text p{margin:0 0 12px;color:var(--muted)}
+.hero-image img{width:280px;height:160px;object-fit:cover;border-radius:12px;box-shadow:0 6px 18px rgba(16,24,32,0.06)}
+
+/* Cards */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}
+.card{background:var(--card);padding:14px;border-radius:12px;box-shadow:0 6px 16px rgba(16,24,32,0.04)}
+.card h3{margin-top:0}
+
+/* Indicators */
+.indicator{margin:10px 0}
+.indicator label{display:block;font-size:13px;color:var(--muted)}
+.bar{background:#f0f4f1;border-radius:10px;overflow:hidden;height:12px;margin-top:6px}
+.bar > div{height:100%;background:linear-gradient(90deg,var(--accent-2),var(--accent));width:50%}
+
+/* Buttons */
+button.primary{background:var(--accent);color:white;padding:10px 14px;border-radius:10px;border:0;cursor:pointer}
+button.ghost{background:transparent;padding:10px 14px;border-radius:10px;border:2px solid var(--accent);cursor:pointer}
+.cta-row{display:flex;gap:10px;margin-top:12px}
+
+/* Panel */
+.panel{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 8px 22px rgba(16,24,32,0.06)}
+.accordion{margin-top:12px}
+.acc-btn{width:100%;text-align:left;padding:12px;border-radius:10px;border:0;background:#f7fbf7;cursor:pointer;margin-top:8px}
+.acc-panel{padding:10px 12px;display:none;background:white;border-left:3px solid var(--accent);margin-top:6px;border-radius:6px}
+
+/* Grid tiles */
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:12px}
+.tile{background:linear-gradient(180deg,#fbfff9,#ffffff);padding:12px;border-radius:10px;box-shadow:0 6px 14px rgba(16,24,32,0.04)}
+
+/* Checklist */
+.checklist{list-style:none;padding:0;margin:12px 0}
+.checklist li{display:flex;align-items:center;gap:10px;padding:8px 0}
+
+/* Gallery */
+.gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+.gallery img{width:100%;height:120px;object-fit:cover;border-radius:10px;cursor:pointer;transition:transform .18s}
+.gallery img:focus, .gallery img:hover{transform:scale(1.03)}
+
+/* Modal */
+.modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(2,8,3,0.6);z-index:120}
+.modal.hidden{display:none}
+.modal img{max-width:90%;max-height:80%;border-radius:8px}
+.modal .close{position:absolute;top:20px;right:24px;color:white;font-size:22px;cursor:pointer}
+
+/* Footer */
+.footer{text-align:center;padding:14px 8px;color:var(--muted);font-size:13px}
+
+/* Responsive */
+@media (max-width:900px){
+  .cards{grid-template-columns:1fr}
+  .hero{flex-direction:column}
+  .gallery{grid-template-columns:repeat(2,1fr)}
+  .grid{grid-template-columns:1fr}
+}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}

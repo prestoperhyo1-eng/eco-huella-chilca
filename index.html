@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Eco Huella Chilca — El impacto ciudadano</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#2f8f4a"/>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <img src="https://cdn-icons-png.flaticon.com/512/616/616554.png" alt="logo" class="logo">
+      <div>
+        <h1>Eco Huella Chilca</h1>
+        <small>El impacto del comportamiento ciudadano en el ecosistema urbano</small>
+      </div>
+    </div>
+    <nav class="nav">
+      <button data-target="home" class="nav-btn active">Inicio</button>
+      <button data-target="impacto" class="nav-btn">Impacto</button>
+      <button data-target="acciones" class="nav-btn">Acciones</button>
+      <button data-target="galeria" class="nav-btn">Galería</button>
+      <button data-target="about" class="nav-btn">Sobre el grupo</button>
+    </nav>
+  </header>
+
+  <main id="app">
+    <!-- HERO / Home -->
+    <section id="home" class="page active">
+      <div class="hero">
+        <div class="hero-text">
+          <h2>Protege Chilca, protege Huancayo</h2>
+          <p>Somos estudiantes universitarias comprometidas con el cuidado del medio ambiente. Aquí encontrarás información, datos y acciones concretas para reducir la huella ecológica en nuestra ciudad.</p>
+          <div class="cta-row">
+            <button class="primary" data-target="impacto">Conoce el impacto</button>
+            <button class="ghost" data-target="acciones">Ver acciones prácticas</button>
+          </div>
+        </div>
+        <div class="hero-image">
+          <img alt="parque" src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=800&q=60">
+        </div>
+      </div>
+
+      <div class="cards">
+        <article class="card">
+          <h3>Datos rápidos</h3>
+          <ul>
+            <li>Basura en la vía pública incrementa plagas y contamina suelos y agua.</li>
+            <li>Parques mal cuidados reducen la calidad del aire y la biodiversidad.</li>
+            <li>El consumo ineficiente de agua y energía afecta la disponibilidad a futuro.</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <h3>Indicadores</h3>
+          <div class="indicator">
+            <label>Áreas verdes conservadas</label>
+            <div class="bar"><div style="width:62%"></div></div>
+            <small>62% meta municipal</small>
+          </div>
+          <div class="indicator">
+            <label>Recolección de residuos (separados)</label>
+            <div class="bar"><div style="width:41%"></div></div>
+            <small>41% población participa</small>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>Participa</h3>
+          <p>Únete a campañas locales de limpieza, talleres de educación ambiental y promoción del reciclaje.</p>
+          <button class="primary" data-target="about">Contacto del grupo</button>
+        </article>
+      </div>
+    </section>
+
+    <!-- Impacto -->
+    <section id="impacto" class="page">
+      <div class="panel">
+        <h2>El impacto del comportamiento ciudadano</h2>
+        <p>Las acciones cotidianas (arrojar basura, mal uso del agua, desperdicio energético, tala o daño de plantas) alteran procesos ecológicos urbanos: reducen la calidad del suelo, alteran cuencas, empeoran la calidad del aire y afectan la fauna urbana.</p>
+
+        <div class="accordion">
+          <button class="acc-btn">Aire y salud</button>
+          <div class="acc-panel"><p>Emisiones, quema de residuos y falta de áreas verdes elevan partículas en suspensión provocando problemas respiratorios.</p></div>
+
+          <button class="acc-btn">Agua y drenaje</button>
+          <div class="acc-panel"><p>Desechos en calles tapan drenajes, provocan inundaciones y contaminan fuentes de agua.</p></div>
+
+          <button class="acc-btn">Biodiversidad urbana</button>
+          <div class="acc-panel"><p>Perder áreas verdes reduce refugio y alimento para aves e insectos que mantienen el equilibrio ecológico.</p></div>
+        </div>
+
+        <h3>Ejemplos locales</h3>
+        <ol>
+          <li>Acumulación de residuos en mercados y vías principales.</li>
+          <li>Riego inadecuado y falta de mantenimiento de parques.</li>
+          <li>Uso intensivo de vehículos particulares en distancias cortas.</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Acciones -->
+    <section id="acciones" class="page">
+      <div class="panel">
+        <h2>Acciones concretas — Qué podemos hacer</h2>
+        <div class="grid">
+          <div class="tile">
+            <h4>Reduce</h4>
+            <p>Minimiza el consumo innecesario: bolsas, plásticos, agua y energía.</p>
+          </div>
+          <div class="tile">
+            <h4>Reutiliza</h4>
+            <p>Repara objetos, dona, y dale una segunda vida a lo que ya no usas.</p>
+          </div>
+          <div class="tile">
+            <h4>Recicla</h4>
+            <p>Separa en casa: orgánico, inorgánico reciclable y residuos especiales.</p>
+          </div>
+          <div class="tile">
+            <h4>Movilidad sustentable</h4>
+            <p>Camina, usa bicicleta y transporte público. Reduce emisiones y congestión.</p>
+          </div>
+        </div>
+
+        <h3>Guía rápida — Acciones en 7 días</h3>
+        <ul class="checklist">
+          <li><input type="checkbox" id="c1"><label for="c1">No usar bolsas plásticas 2 días seguidos</label></li>
+          <li><input type="checkbox" id="c2"><label for="c2">Recolectar 1 bolsa de basura de la calle</label></li>
+          <li><input type="checkbox" id="c3"><label for="c3">Apagar luces innecesarias</label></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Galería -->
+    <section id="galeria" class="page">
+      <div class="panel">
+        <h2>Galería — Chilca en imágenes</h2>
+        <p>Fotos representativas (usa las flechas para navegar o toca para ampliar)</p>
+        <div class="gallery">
+          <img src="https://diariocorreo.pe/resizer/O4VCAaxX1E2oYf9oyM6mxR9vKOQ=/1200x675/smart/filters:format(jpeg):quality(75)/arc-anglerfish-arc2-prod-elcomercio.s3.amazonaws.com/public/24LOKPWFL5F35HLPS5KQOYSYQA.jpg" alt="parque" tabindex="0">
+          <img src="https://diariocorreo.pe/resizer/-y7sKvyCKzzBOIgEVJjkdqNukKo=/1200x1200/smart/filters:format(jpeg):quality(75)/arc-anglerfish-arc2-prod-elcomercio.s3.amazonaws.com/public/Z7RH5DVWHZDVLNCFDCO7FMBKYA.jpg" alt="ciudad" tabindex="0">
+          <img src="https://diariocorreo.pe/resizer/HgaMo7algWjWqxJSY1hJrqFKVmw=/800x536/smart/filters:format(jpeg):quality(75)/arc-anglerfish-arc2-prod-elcomercio.s3.amazonaws.com/public/3QD6RNCZQFDAFEMDG2PWATIJTM.jpg" alt="reciclaje" tabindex="0">
+          <img src="https://diariocorreo.pe/resizer/yZgBqmF-utyoLzDssQGC_NUBxvw=/980x528/smart/filters:format(jpeg):quality(75)/arc-anglerfish-arc2-prod-elcomercio.s3.amazonaws.com/public/FDDQDP4BMZC7PIWRNYDXXHZTGQ.jpg" alt="arboles" tabindex="0">
+        </div>
+
+        <div id="modal" class="modal hidden">
+          <span class="close">✕</span>
+          <img id="modal-img" src="" alt="ampliada">
+          <div class="modal-caption"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About / Contact -->
+    <section id="about" class="page">
+      <div class="panel about-panel">
+        <h2>Sobre nuestro grupo</h2>
+        <p>Somo estudiantes universitarias comprometidos con el cuidado del medio ambiente, por ello hemos elegido abordar el tema “el impacto del comportamiento ciudadano en el ecosistema urbano de Huancayo”. Buscamos reflexionar sobre como nuestras acciones diarias incluyen en el equilibrio natural de la ciudad. 
+Nuestro ecosistema no solo esta formado por las plantas, animales y el clima, sino también por las personas que lo habitan.
+Cuidar los parques, calles, el agua y la energía son practicas esenciales para mantener un entorno saludable y sostenible..</p>
+
+        <h3>¿Quieres colaborar?</h3>
+        <p>Escríbenos: <a href="mailto:eco.huella.chilca@example.com">eco.huella.chilca@example.com</a></p>
+
+        <h3>Descargar informe</h3>
+        <p>Puedes descargar un resumen en PDF (simulado) con prácticas y bibliografía.</p>
+<a class="download" href="https://www.canva.com/design/DAG1Tjxs2eQ/ThB7p0Iky56uCr8JaX5owA/edit?utm_content=DAG1Tjxs2eQ&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton" target="_blank">
+  🌿 Ver resumen en Canva
+</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <small>© 2025 Eco Huella Chilca — Proyecto universitario • Hecho con ♥</small>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
+
