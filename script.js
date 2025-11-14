@@ -1,57 +1,119 @@
-// Navegación entre secciones
-document.querySelectorAll('.nav-btn, .cta-row button, .card .primary').forEach(btn=>{
-  btn.addEventListener('click', e=>{
-    const target = btn.dataset.target;
-    if(target) showPage(target);
-  })
-});
+// script.js dinámico para Eco Huella
 
-function showPage(id){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  document.querySelectorAll('.nav-btn').forEach(n=>n.classList.toggle('active', n.dataset.target===id));
-  window.scrollTo({top:0,behavior:'smooth'});
+
+document.addEventListener("DOMContentLoaded", () => {
+const sections = document.querySelectorAll("section");
+const menuItems = document.querySelectorAll(".menu-item");
+const calcBtn = document.getElementById("calcBtn");
+const resultBox = document.getElementById("resultBox");
+const inputElectricidad = document.getElementById("electricidad");
+const inputAgua = document.getElementById("agua");
+const inputMovilidad = document.getElementById("movilidad");
+const historyList = document.getElementById("historyList");
+
+
+function showSection(id) {
+sections.forEach(sec => sec.style.display = "none");
+document.getElementById(id).style.display = "block";
+window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-// CTA buttons inside cards (some have same data-target)
-document.querySelectorAll('button[data-target]').forEach(b=>{
-  b.addEventListener('click', ()=> showPage(b.dataset.target));
+
+menuItems.forEach(item => {
+item.addEventListener("click", () => {
+const sectionId = item.getAttribute("data-section");
+
+
+menuItems.forEach(i => i.classList.remove("active"));
+item.classList.add("active");
+
+
+showSection(sectionId);
+});
 });
 
-// Accordion behavior
-document.querySelectorAll('.acc-btn').forEach(btn=>{
-  btn.addEventListener('click', ()=>{
-    const panel = btn.nextElementSibling;
-    const isOpen = panel.style.display === 'block';
-    document.querySelectorAll('.acc-panel').forEach(p=>p.style.display='none');
-    panel.style.display = isOpen ? 'none' : 'block';
-  })
-});
 
-// Gallery modal
-const modal = document.getElementById('modal');
-const modalImg = document.getElementById('modal-img');
-const modalCaption = document.querySelector('.modal-caption');
-document.querySelectorAll('.gallery img').forEach(img=>{
-  img.addEventListener('click', ()=> openModal(img));
-  img.addEventListener('keydown', (e)=>{ if(e.key==='Enter') openModal(img); });
-});
-function openModal(img){
-  modalImg.src = img.src;
-  modalCaption.textContent = img.alt || '';
-  modal.classList.remove('hidden');
-}
-document.querySelector('.modal .close').addEventListener('click', ()=> modal.classList.add('hidden'));
-modal.addEventListener('click', (e)=>{ if(e.target===modal) modal.classList.add('hidden'); });
+calcBtn.addEventListener("click", () => {
+const elec = parseFloat(inputElectricidad.value) || 0;
+const water = parseFloat(inputAgua.value) || 0;
+const mov = parseFloat(inputMovilidad.value) || 0;
 
-// Service worker registration for PWA
-if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('service-worker.js')
-    .then(()=>console.log('Service Worker registrado.'))
-    .catch(err=>console.warn('SW error', err));
+
+if (elec <= 0 && water <= 0 && mov <= 0) {
+resultBox.innerHTML = "<p class='error'>Ingresa al menos un valor para calcular tu huella.</p>";
+return;
 }
 
-// Small accessibility: allow nav via keyboard
-document.addEventListener('keydown', (e)=>{
-  if(e.key === 'Escape') document.querySelectorAll('.modal').forEach(m=>m.classList.add('hidden'));
+
+const huella = (elec * 0.4) + (water * 0.2) + (mov * 0.7);
+
+
+let nivel = "";
+if (huella < 50) nivel = "Tu impacto es BAJO. ¡Sigue así!";
+else if (huella < 120) nivel = "Tu impacto es MEDIO. Puedes mejorar un poquito más.";
+else nivel = "Tu impacto es ALTO. ¡Es momento de tomar acción!";
+
+
+const fecha = new Date().toLocaleString();
+
+
+const entry = document.createElement("li");
+entry.textContent = `${fecha} → ${huella.toFixed(2)} puntos`;// script.js corregido y mejorado con navegación funcional y animaciones
+
+document.addEventListener("DOMContentLoaded", () => {
+  const pages = document.querySelectorAll(".page");
+  const navButtons = document.querySelectorAll("nav.bottom-nav button, .btn-primary[data-target]");
+
+  // Función para mostrar secciones
+  function openPage(id) {
+    pages.forEach(p => p.classList.remove("active"));
+    const page = document.getElementById(id);
+    if (page) {
+      page.classList.add("active");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
+  // Activar los botones
+  navButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const target = btn.getAttribute("data-target");
+      openPage(target);
+    });
+  });
+
+  // ACORDEÓN
+  const accButtons = document.querySelectorAll(".acc-btn");
+
+  accButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      btn.classList.toggle("open");
+      const panel = btn.nextElementSibling;
+
+      if (panel.style.maxHeight) {
+        panel.style.maxHeight = null;
+      } else {
+        panel.style.maxHeight = panel.scrollHeight + "px";
+      }
+    });
+  });
+
+  // Página inicial
+  openPage("home");
+});
+historyList.prepend(entry);
+
+
+resultBox.innerHTML = `
+<h3>Resultado:</h3>
+<p class='res-num'>${huella.toFixed(2)} puntos</p>
+<p class='res-text'>${nivel}</p>
+`;
+
+
+resultBox.classList.add("show");
+});
+
+
+showSection("inicio");
 });
