@@ -1,95 +1,57 @@
-// script.js dinámico para Eco Huella
-
-
+// script.js — navegación por data-target con delegación + acordeón + marcas activas
 document.addEventListener("DOMContentLoaded", () => {
-const sections = document.querySelectorAll("section");
-const menuItems = document.querySelectorAll(".menu-item");
-const calcBtn = document.getElementById("calcBtn");
-const resultBox = document.getElementById("resultBox");
-const inputElectricidad = document.getElementById("electricidad");
-const inputAgua = document.getElementById("agua");
-const inputMovilidad = document.getElementById("movilidad");
-const historyList = document.getElementById("historyList");
+  const pages = Array.from(document.querySelectorAll(".page"));
+  const bottomButtons = Array.from(document.querySelectorAll("nav.bottom-nav button"));
+  const allDataBtns = []; // para referencia (llenado abajo)
 
-
-function showSection(id) {
-sections.forEach(sec => sec.style.display = "none");
-document.getElementById(id).style.display = "block";
-window.scrollTo({ top: 0, behavior: "smooth" });
-}
-
-
-menuItems.forEach(item => {
-item.addEventListener("click", () => {
-const sectionId = item.getAttribute("data-section");
-
-
-menuItems.forEach(i => i.classList.remove("active"));
-item.classList.add("active");
-
-
-showSection(sectionId);
-});
-});
-
-
-calcBtn.addEventListener("click", () => {
-const elec = parseFloat(inputElectricidad.value) || 0;
-const water = parseFloat(inputAgua.value) || 0;
-const mov = parseFloat(inputMovilidad.value) || 0;
-
-
-if (elec <= 0 && water <= 0 && mov <= 0) {
-resultBox.innerHTML = "<p class='error'>Ingresa al menos un valor para calcular tu huella.</p>";
-return;
-}
-
-
-const huella = (elec * 0.4) + (water * 0.2) + (mov * 0.7);
-
-
-let nivel = "";
-if (huella < 50) nivel = "Tu impacto es BAJO. ¡Sigue así!";
-else if (huella < 120) nivel = "Tu impacto es MEDIO. Puedes mejorar un poquito más.";
-else nivel = "Tu impacto es ALTO. ¡Es momento de tomar acción!";
-
-
-const fecha = new Date().toLocaleString();
-
-
-const entry = document.createElement("li");
-entry.textContent = `${fecha} → ${huella.toFixed(2)} puntos`;// script.js corregido y mejorado con navegación funcional y animaciones
-
-document.addEventListener("DOMContentLoaded", () => {
-  const pages = document.querySelectorAll(".page");
-  const navButtons = document.querySelectorAll("nav.bottom-nav button, .btn-primary[data-target]");
-
-  // Función para mostrar secciones
+  // función principal: mostrar página por id
   function openPage(id) {
-    pages.forEach(p => p.classList.remove("active"));
-    const page = document.getElementById(id);
-    if (page) {
-      page.classList.add("active");
-      window.scrollTo({ top: 0, behavior: "smooth" });
+    if (!id) return;
+    const target = document.getElementById(id);
+    if (!target) {
+      console.warn("openPage: no existe sección con id:", id);
+      return;
     }
+    pages.forEach(p => p.classList.remove("active"));
+    target.classList.add("active");
+    // marcar botón activo en bottom-nav (si existe)
+    bottomButtons.forEach(b => {
+      b.classList.toggle("active", b.getAttribute("data-target") === id);
+    });
+    // llevar al top suavemente
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
-  // Activar los botones
-  navButtons.forEach(btn => {
-    btn.addEventListener("click", () => {
-      const target = btn.getAttribute("data-target");
-      openPage(target);
-    });
+  // Delegación: cualquier elemento con atributo data-target hará la navegación
+  document.body.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-target]");
+    if (!btn) return;
+    const targetId = btn.getAttribute("data-target");
+    // evita que enlaces con href actúen por defecto
+    if (btn.tagName.toLowerCase() === "a" && btn.getAttribute("href")?.startsWith("#") ) {
+      e.preventDefault();
+    }
+    openPage(targetId);
   });
 
-  // ACORDEÓN
-  const accButtons = document.querySelectorAll(".acc-btn");
+  // Si hay hash en la URL, abrir la página correspondiente
+  const hash = window.location.hash.replace("#", "");
+  if (hash) {
+    openPage(hash);
+  } else {
+    // fallback: abrir 'home' si existe
+    openPage("home");
+  }
 
-  accButtons.forEach(btn => {
+  // Acordeón: elementos .acc-btn seguidos por .acc-panel
+  const accBtns = Array.from(document.querySelectorAll(".acc-btn"));
+  accBtns.forEach(btn => {
+    const panel = btn.nextElementSibling;
+    // inicializar altura 0
+    if (panel) panel.style.maxHeight = panel.classList.contains("open") ? panel.scrollHeight + "px" : null;
     btn.addEventListener("click", () => {
       btn.classList.toggle("open");
-      const panel = btn.nextElementSibling;
-
+      if (!panel) return;
       if (panel.style.maxHeight) {
         panel.style.maxHeight = null;
       } else {
@@ -98,22 +60,94 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Página inicial
-  openPage("home");
+  // Mejora visual: marcar el botón bottom-nav activo si el usuario navega con back/forward
+  window.addEventListener("popstate", () => {
+    const h = window.location.hash.replace("#", "");
+    if (h) openPage(h);
+  });
+  
+
+  // Opcional: permitir cambiar hash al navegar (útil para compartir enlaces)
+  // Si quieres que la URL muestre la sección, descomenta la siguiente línea:
+  // history.replaceState(null, "", `#${document.querySelector(".page.active").id}`);
+
+  // DEBUG: si no funciona, muestra en consola la lista de sections y botones
+  // console.log("Páginas detectadas:", pages.map(p => p.id));
+  // console.log("Bottom buttons:", bottomButtons.map(b => b.getAttribute("data-target")));
 });
-historyList.prepend(entry);
+// =========================
+//   LIGHTBOX para imágenes
+// =========================
+const galleryImages = document.querySelectorAll(".gallery img");
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = document.getElementById("lightboxImg");
+const lightboxVideo = document.getElementById("lightboxVideo");
+const closeBtn = document.getElementById("closeLightbox");
 
-
-resultBox.innerHTML = `
-<h3>Resultado:</h3>
-<p class='res-num'>${huella.toFixed(2)} puntos</p>
-<p class='res-text'>${nivel}</p>
-`;
-
-
-resultBox.classList.add("show");
+// Abrir lightbox cuando tocan una imagen
+galleryImages.forEach(img => {
+  img.addEventListener("click", () => {
+    lightbox.style.display = "flex";
+    lightboxImg.style.display = "block";
+    lightboxVideo.style.display = "none";
+    lightboxImg.src = img.src;
+  });
 });
 
-
-showSection("inicio");
+// Cerrar lightbox
+closeBtn.addEventListener("click", () => {
+  lightbox.style.display = "none";
 });
+
+// Cerrar al tocar fuera
+lightbox.addEventListener("click", (e) => {
+  if (e.target === lightbox) {
+    lightbox.style.display = "none";
+  }
+});
+/* ------------------------------
+   ACORDEONES DE IMPACTO
+------------------------------ */
+const accButtons = document.querySelectorAll(".acc-btn");
+
+accButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+
+    // Cerrar otros acordeones
+    accButtons.forEach(other => {
+      if (other !== btn) {
+        other.nextElementSibling.style.display = "none";
+      }
+    });
+
+    // Alternar el panel clickeado
+    const panel = btn.nextElementSibling;
+    panel.style.display = (panel.style.display === "block") ? "none" : "block";
+  });
+});
+/* ------------------------------
+   ACORDEÓN DE ACCIONES – MINI
+------------------------------ */
+const miniBtns = document.querySelectorAll(".acc-mini");
+
+miniBtns.forEach(btn => {
+  btn.addEventListener("click", () => {
+
+    // Cerrar todos menos el clickeado
+    miniBtns.forEach(other => {
+      if (other !== btn) {
+        other.nextElementSibling.style.maxHeight = null;
+      }
+    });
+
+    const panel = btn.nextElementSibling;
+
+    if (panel.style.maxHeight) {
+      panel.style.maxHeight = null;
+    } else {
+      panel.style.maxHeight = panel.scrollHeight + "px";
+    }
+
+  });
+});
+
